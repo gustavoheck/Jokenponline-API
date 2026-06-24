@@ -1,4 +1,4 @@
-CREATE TABLE role (
+CREATE TABLE auth.role (
     id BIGSERIAL PRIMARY KEY,
     role VARCHAR(255) UNIQUE NOT NULL
 );
