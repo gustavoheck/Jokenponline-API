@@ -6,6 +6,7 @@ import heck.jokenponline.auth.internal.dto.login.LoginResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class AuthController {
         this.loginUseCase = loginUseCase;
     }
 
+    @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login (@Valid @RequestBody LoginRequestDTO request) {
         LoginResponseDTO response = loginUseCase.login(request);
 
