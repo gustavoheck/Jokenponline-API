@@ -1,0 +1,36 @@
+package heck.jokenponline.auth.internal.app;
+
+import heck.jokenponline.auth.internal.domain.entity.User;
+import heck.jokenponline.auth.internal.dto.login.LoginRequestDTO;
+import heck.jokenponline.auth.internal.dto.login.LoginResponseDTO;
+import heck.jokenponline.auth.internal.infra.security.config.TokenConfig;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional(readOnly = true)
+public class LoginUseCase {
+
+    private final AuthenticationManager authenticationManager;
+    private final TokenConfig tokenConfig;
+
+    public LoginUseCase(AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
+        this.authenticationManager = authenticationManager;
+        this.tokenConfig = tokenConfig;
+    }
+
+    public LoginResponseDTO login (LoginRequestDTO request) {
+
+        UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.username(), request.password());
+        Authentication authentication = authenticationManager.authenticate(userAndPass);
+
+        User user = (User) authentication.getPrincipal();
+
+        String token = tokenConfig.generateToken(user);
+
+        return new LoginResponseDTO(token);
+    }
+}

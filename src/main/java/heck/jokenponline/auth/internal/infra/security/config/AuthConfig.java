@@ -1,6 +1,6 @@
-package heck.jokenponline.auth.app.infra.security.config;
+package heck.jokenponline.auth.internal.infra.security.config;
 
-import heck.jokenponline.auth.app.infra.repository.UserRepository;
+import heck.jokenponline.auth.internal.infra.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

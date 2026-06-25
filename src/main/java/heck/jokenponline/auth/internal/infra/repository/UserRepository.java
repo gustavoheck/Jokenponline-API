@@ -1,6 +1,6 @@
-package heck.jokenponline.auth.app.infra.repository;
+package heck.jokenponline.auth.internal.infra.repository;
 
-import heck.jokenponline.auth.app.domain.entity.User;
+import heck.jokenponline.auth.internal.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;

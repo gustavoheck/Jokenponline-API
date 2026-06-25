@@ -1,11 +1,11 @@
-package heck.jokenponline.auth.app.infra.security.config;
+package heck.jokenponline.auth.internal.infra.security.config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import heck.jokenponline.auth.app.domain.entity.User;
-import heck.jokenponline.auth.app.infra.security.exceptions.InvalidTokenException;
+import heck.jokenponline.auth.internal.domain.entity.User;
+import heck.jokenponline.auth.internal.infra.security.exceptions.InvalidTokenException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 

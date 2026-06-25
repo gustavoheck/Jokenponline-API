@@ -1,4 +1,4 @@
-package heck.jokenponline.auth.app.domain.entity;
+package heck.jokenponline.auth.internal.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

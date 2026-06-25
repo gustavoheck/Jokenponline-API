@@ -1,4 +1,4 @@
-package heck.jokenponline.auth.app.infra.security.config;
+package heck.jokenponline.auth.internal.infra.security.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
