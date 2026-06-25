@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,7 +24,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, nullable = false, updatable = false)
     private UUID uuid;
 
@@ -42,6 +43,13 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @PrePersist
+    protected void onPersistGenerateUUID() {
+        if (this.uuid == null) {
+            this.uuid = UUID.randomUUID();
+        }
+    }
 
     @Override
     public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
