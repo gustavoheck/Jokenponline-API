@@ -1,7 +1,7 @@
 package heck.jokenponline.auth.internal.controller;
 
-import heck.jokenponline.auth.internal.app.usecase.LoginService;
-import heck.jokenponline.auth.internal.app.usecase.RegisterService;
+import heck.jokenponline.auth.internal.app.service.LoginService;
+import heck.jokenponline.auth.internal.app.service.RegisterService;
 import heck.jokenponline.auth.internal.dto.login.LoginRequestDTO;
 import heck.jokenponline.auth.internal.dto.login.LoginResponseDTO;
 import heck.jokenponline.auth.internal.dto.register.RegisterRequestDTO;

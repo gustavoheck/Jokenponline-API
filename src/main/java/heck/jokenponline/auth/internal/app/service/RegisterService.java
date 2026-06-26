@@ -1,4 +1,4 @@
-package heck.jokenponline.auth.internal.app.usecase;
+package heck.jokenponline.auth.internal.app.service;
 
 import heck.jokenponline.auth.internal.app.mapper.UserRegisterMapper;
 import heck.jokenponline.auth.internal.domain.entity.Role;
