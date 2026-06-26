@@ -41,6 +41,12 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     @PrePersist
     protected void onPersistGenerateUUID() {
         if (this.uuid == null) {

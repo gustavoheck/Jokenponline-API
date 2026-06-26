@@ -24,6 +24,10 @@ public class Role implements GrantedAuthority {
     @Column(nullable = false, unique = true)
     String role;
 
+    public Role(String role) {
+        this.role = role;
+    }
+
     @Override
     public @Nullable String getAuthority() {
         return this.role;

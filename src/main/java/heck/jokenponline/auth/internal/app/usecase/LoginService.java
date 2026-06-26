@@ -1,4 +1,4 @@
-package heck.jokenponline.auth.internal.app;
+package heck.jokenponline.auth.internal.app.usecase;
 
 import heck.jokenponline.auth.internal.domain.entity.User;
 import heck.jokenponline.auth.internal.dto.login.LoginRequestDTO;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class LoginUseCase {
+public class LoginService {
 
     private final AuthenticationManager authenticationManager;
     private final TokenConfig tokenConfig;
 
-    public LoginUseCase(AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
+    public LoginService(AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
         this.authenticationManager = authenticationManager;
         this.tokenConfig = tokenConfig;
     }
