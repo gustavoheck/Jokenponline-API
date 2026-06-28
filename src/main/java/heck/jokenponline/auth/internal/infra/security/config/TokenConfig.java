@@ -59,7 +59,7 @@ public class TokenConfig {
                     .build()
             );
         } catch (JWTVerificationException e) {
-            throw new InvalidTokenException("Invalid token");
+            throw new InvalidTokenException();
         }
     }
 

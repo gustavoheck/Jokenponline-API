@@ -19,6 +19,6 @@ public class AuthConfig implements UserDetailsService {
     @Override
     public @NonNull UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("AuthenticationProvider cannot find the user by %s username.".formatted(username)));
+                .orElseThrow(() -> new UsernameNotFoundException("Password or Username is invalid!".formatted(username)));
     }
 }
