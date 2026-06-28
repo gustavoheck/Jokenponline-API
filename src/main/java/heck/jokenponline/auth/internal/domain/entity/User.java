@@ -36,6 +36,7 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_role",
+            schema = "auth",
             joinColumns = @JoinColumn(name = "id_users"),
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
