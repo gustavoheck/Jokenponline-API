@@ -8,6 +8,7 @@ import heck.jokenponline.auth.internal.dto.register.RegisterRequestDTO;
 import heck.jokenponline.auth.internal.dto.register.RegisterResponseDTO;
 import heck.jokenponline.auth.internal.infra.repository.RoleRepository;
 import heck.jokenponline.auth.internal.infra.repository.UserRepository;
+import heck.jokenponline.auth.internal.infra.security.config.SecurityConfig;
 import heck.jokenponline.auth.internal.infra.security.exceptions.NotExistentRole;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -20,11 +21,15 @@ public class RegisterService {
     private final UserRegisterMapper userRegisterMapper;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final SecurityConfig securityConfig;
 
-    public RegisterService(UserRegisterMapper userRegisterMapper, UserRepository userRepository, RoleRepository roleRepository) {
+    public RegisterService
+            (UserRegisterMapper userRegisterMapper, UserRepository userRepository,
+             RoleRepository roleRepository, SecurityConfig securityConfig) {
         this.userRegisterMapper = userRegisterMapper;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.securityConfig = securityConfig;
     }
 
     @Transactional
@@ -36,6 +41,7 @@ public class RegisterService {
 
         user.getRoles().add(roleUser);
 
+        user.setPassword(securityConfig.passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
 
         return userRegisterMapper.toResponse(user);
