@@ -1,5 +1,6 @@
 package heck.jokenponline.auth.internal.app.service;
 
+import heck.jokenponline.auth.internal.app.exceptions.UsernameAlreadyUsedException;
 import heck.jokenponline.auth.internal.app.mapper.UserRegisterMapper;
 import heck.jokenponline.auth.internal.domain.entity.Role;
 import heck.jokenponline.auth.internal.domain.entity.User;
@@ -34,16 +35,19 @@ public class RegisterService {
 
     @Transactional
     public RegisterResponseDTO register (@Valid @RequestBody RegisterRequestDTO request) {
-        User user = userRegisterMapper.toEntity(request);
+        if (!(userRepository.existsByUsername(request.username()))) {
+            User user = userRegisterMapper.toEntity(request);
 
-        Role roleUser = roleRepository.findByRole(Roles.ROLE_USER.toString())
-                        .orElseThrow(() -> new NotExistentRoleException("The role %s is not registered in the database!".formatted(Roles.ROLE_USER.toString())));
+            Role roleUser = roleRepository.findByRole(Roles.ROLE_USER.toString())
+                    .orElseThrow(() -> new NotExistentRoleException("The role %s is not registered in the database!".formatted(Roles.ROLE_USER.toString())));
 
-        user.getRoles().add(roleUser);
+            user.getRoles().add(roleUser);
 
-        user.setPassword(securityConfig.passwordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
+            user.setPassword(securityConfig.passwordEncoder().encode(user.getPassword()));
+            userRepository.save(user);
 
-        return userRegisterMapper.toResponse(user);
+            return userRegisterMapper.toResponse(user);
+        }
+        throw new UsernameAlreadyUsedException("The username %s is already used, the username must be unique".formatted(request.username()));
     }
 }

@@ -1,5 +1,6 @@
 package heck.jokenponline.auth.internal.infra.handler;
 
+import heck.jokenponline.auth.internal.app.exceptions.UsernameAlreadyUsedException;
 import heck.jokenponline.auth.internal.infra.security.exception.InvalidTokenException;
 import heck.jokenponline.auth.internal.infra.security.exception.NotExistentRoleException;
 import heck.jokenponline.shared.infra.handler.DefaultExceptionHandler;
@@ -57,6 +58,20 @@ public class AuthExceptionHandler extends DefaultExceptionHandler {
                         Instant.now().toString(),
                         HttpStatus.BAD_REQUEST.value(),
                         HttpStatus.BAD_REQUEST.toString(),
+                        exception.getMessage(),
+                        path
+                ));
+    }
+
+    @ExceptionHandler(UsernameAlreadyUsedException.class)
+    private ResponseEntity<ErrorResponseDTO> usernameAlreadyUsedHandler (UsernameAlreadyUsedException exception, WebRequest request) {
+        String path = request.getDescription(false).replaceAll("uri=", "");
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponseDTO(
+                        Instant.now().toString(),
+                        HttpStatus.CONFLICT.value(),
+                        HttpStatus.CONFLICT.toString(),
                         exception.getMessage(),
                         path
                 ));
