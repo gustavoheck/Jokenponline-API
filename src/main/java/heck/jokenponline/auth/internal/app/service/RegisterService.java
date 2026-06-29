@@ -9,7 +9,7 @@ import heck.jokenponline.auth.internal.dto.register.RegisterResponseDTO;
 import heck.jokenponline.auth.internal.infra.repository.RoleRepository;
 import heck.jokenponline.auth.internal.infra.repository.UserRepository;
 import heck.jokenponline.auth.internal.infra.security.config.SecurityConfig;
-import heck.jokenponline.auth.internal.infra.security.exceptions.NotExistentRoleException;
+import heck.jokenponline.auth.internal.infra.security.exception.NotExistentRoleException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;

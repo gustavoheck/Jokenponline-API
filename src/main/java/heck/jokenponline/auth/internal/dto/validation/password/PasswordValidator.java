@@ -17,6 +17,8 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
 
         String specialCharacters = "!@#$%^&*(),.?\"{}|<>";
 
+        //Lembrar de jogar exceção para tratamento
+
         for (char ch : password.toCharArray()) {
             if (Character.isUpperCase(ch)) {
                 hasUppercase = true;

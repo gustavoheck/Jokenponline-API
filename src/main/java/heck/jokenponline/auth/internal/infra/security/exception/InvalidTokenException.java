@@ -1,4 +1,4 @@
-package heck.jokenponline.auth.internal.infra.security.exceptions;
+package heck.jokenponline.auth.internal.infra.security.exception;
 
 public class InvalidTokenException extends RuntimeException {
     public InvalidTokenException() {

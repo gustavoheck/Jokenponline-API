@@ -1,9 +1,12 @@
 package heck.jokenponline.auth.internal.infra.handler;
 
-import heck.jokenponline.auth.internal.infra.security.exceptions.InvalidTokenException;
-import heck.jokenponline.auth.internal.infra.security.exceptions.NotExistentRoleException;
+import heck.jokenponline.auth.internal.infra.security.exception.InvalidTokenException;
+import heck.jokenponline.auth.internal.infra.security.exception.NotExistentRoleException;
+import heck.jokenponline.shared.infra.handler.DefaultExceptionHandler;
+import heck.jokenponline.shared.infra.handler.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,11 +14,11 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.Instant;
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
+@ControllerAdvice(basePackages = "heck.jokenponline.auth")
+public class AuthExceptionHandler extends DefaultExceptionHandler {
 
     @ExceptionHandler(InvalidTokenException.class)
-    private ResponseEntity<ErrorResponseDTO> InvalidTokenHandler (InvalidTokenException exception, WebRequest request) {
+    private ResponseEntity<ErrorResponseDTO> invalidTokenHandler (InvalidTokenException exception, WebRequest request) {
 
         String path = request.getDescription(false).replaceAll("uri=", "");
 
@@ -30,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NotExistentRoleException.class)
-    private ResponseEntity<ErrorResponseDTO> NotExistentRoleHandler (NotExistentRoleException exception, WebRequest request) {
+    private ResponseEntity<ErrorResponseDTO> notExistentRoleHandler (NotExistentRoleException exception, WebRequest request) {
 
         String path = request.getDescription(false).replaceAll("uri=", "");
 
@@ -44,8 +47,8 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    private ResponseEntity<ErrorResponseDTO> NotExistentRoleHandler (UsernameNotFoundException exception, WebRequest request) {
+    @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
+    private ResponseEntity<ErrorResponseDTO> invalidUserOrPassswordHandler (UsernameNotFoundException exception, WebRequest request) {
 
         String path = request.getDescription(false).replaceAll("uri=", "");
 

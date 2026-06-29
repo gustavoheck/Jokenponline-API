@@ -1,9 +1,10 @@
-package heck.jokenponline.auth.internal.infra.handler;
+package heck.jokenponline.shared.infra.handler;
 
-public record ErrorResponseDTO (
+public record ErrorResponseDTO(
         String timestamp,
         Integer status,
         String error,
         String message,
         String path
-) {}
+) {
+}
