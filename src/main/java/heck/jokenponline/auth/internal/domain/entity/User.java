@@ -1,5 +1,7 @@
 package heck.jokenponline.auth.internal.domain.entity;
 
+import heck.jokenponline.auth.internal.domain.aggregate.EmailValidationToken;
+import heck.jokenponline.auth.internal.domain.exception.CantCreateEmailValidationTokenException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -24,6 +27,9 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false, updatable = false)
     private UUID uuid;
 
+    @OneToOne(mappedBy = "token", cascade = CascadeType.ALL, orphanRemoval = true)
+    private EmailValidationToken token;
+
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -32,6 +38,10 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    private Boolean banned;
+
+    private Boolean active;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -46,13 +56,41 @@ public class User implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.banned = false;
+        this.active = false;
     }
 
     @PrePersist
-    protected void onPersistGenerateUUID() {
-        if (this.uuid == null) {
-            this.uuid = UUID.randomUUID();
+    protected void generateEmailValidationToken() {
+        this.generateNewToken();
+    }
+
+    public Boolean isTokenUsed () {
+        if (token == null) {
+            throw new CantCreateEmailValidationTokenException("Can't check if token is used because it is null");
         }
+        return isTokenUsed();
+    }
+
+    public void generateNewToken () {
+        if (this.uuid == null) {
+            this.token = new EmailValidationToken();
+        } else {
+            throw new CantCreateEmailValidationTokenException("The user already have a UUID! Cannot create a validation token");
+        }
+    }
+
+    public Boolean validateUser() {
+        if (token != null) {
+            if (token.isTokenValid()) {
+                this.active = true;
+                this.token = null;
+                this.uuid = UUID.randomUUID();
+                return true;
+            }
+            return false;
+        }
+        throw new CantCreateEmailValidationTokenException("Can't check if token is valid because it is null");
     }
 
     @Override

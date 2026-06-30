@@ -1,10 +1,12 @@
 package heck.jokenponline.auth.internal.infra.repository;
 
+import heck.jokenponline.auth.internal.domain.aggregate.EmailValidationToken;
 import heck.jokenponline.auth.internal.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -13,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<UserDetails> findByUsername (String username);
 
     Boolean existsByUsername (String username);
+
+    Optional<User> findByToken (EmailValidationToken token);
 }
