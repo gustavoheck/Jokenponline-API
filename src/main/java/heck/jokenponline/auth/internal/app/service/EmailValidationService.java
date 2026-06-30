@@ -6,6 +6,7 @@ import heck.jokenponline.auth.internal.infra.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,13 @@ public class EmailValidationService {
         this.userRepository = userRepository;
     }
 
+    public void validateEmailToken (User user) {
+        List<User> usersWithSameToken = userRepository.findByToken(user.getToken());
+        if (usersWithSameToken.size() > 1) {
+            throw new InvalidEmailTokenException("This token is already used! Generate another token");
+        }
+    }
+
     public void validateUser (User user) {
         if (user.validateUser() == false) {
             throw new InvalidEmailTokenException("The token for e-mail validation is expired");
@@ -26,5 +34,6 @@ public class EmailValidationService {
 
     public void createNewEmailValidationToken (User user) {
         user.generateNewToken();
+        validateEmailToken(user);
     }
 }
