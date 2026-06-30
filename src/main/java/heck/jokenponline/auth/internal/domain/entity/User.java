@@ -10,7 +10,6 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -63,13 +62,6 @@ public class User implements UserDetails {
     @PrePersist
     protected void generateEmailValidationToken() {
         this.generateNewToken();
-    }
-
-    public Boolean isTokenUsed () {
-        if (token == null) {
-            throw new CantCreateEmailValidationTokenException("Can't check if token is used because it is null");
-        }
-        return isTokenUsed();
     }
 
     public void generateNewToken () {

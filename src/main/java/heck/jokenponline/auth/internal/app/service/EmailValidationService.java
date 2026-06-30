@@ -18,24 +18,6 @@ public class EmailValidationService {
         this.userRepository = userRepository;
     }
 
-    public void validateEmailToken (User user) {
-        while (true) {
-            Optional<User> userWithSameToken = userRepository.findByToken(user.getToken());
-            boolean isTokenUsed;
-            if (userWithSameToken.isPresent()) {
-                isTokenUsed = userWithSameToken.get().isTokenUsed();
-            } else {
-                isTokenUsed = false;
-            }
-
-            if (isTokenUsed) {
-                user.generateNewToken();
-            } else {
-                break;
-            }
-        }
-    }
-
     public void validateUser (User user) {
         if (user.validateUser() == false) {
             throw new InvalidEmailTokenException("The token for e-mail validation is expired");
@@ -44,6 +26,5 @@ public class EmailValidationService {
 
     public void createNewEmailValidationToken (User user) {
         user.generateNewToken();
-        validateEmailToken(user);
     }
 }

@@ -23,9 +23,6 @@ public class EmailValidationToken {
     @Column(name = "expiration_time", nullable = false)
     private LocalDateTime expirationTime;
 
-    @Column(nullable = false)
-    private Boolean used;
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_users", referencedColumnName = "id")
     private User user;
@@ -33,7 +30,6 @@ public class EmailValidationToken {
     public EmailValidationToken(UUID token) {
         this.token = UUID.randomUUID();
         this.expirationTime = LocalDateTime.now().plusMinutes(10);
-        this.used = true;
     }
 
     public Boolean isTokenValid () {
